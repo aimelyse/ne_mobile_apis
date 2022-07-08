@@ -1,0 +1,29 @@
+version: '2'
+
+services: 
+  app:
+    image: 'backend-ne:latest'
+    build:
+      context: .
+    container_name: app
+    ports:
+      - "8090:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:jdbc:mysql://db:3306/ne_practical
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      
+  db:
+    image: mysql:5.7
+    restart: always
+    container_name: db
+    environment:
+      - MYSQL_DATABASE=ne_practical
+      - MYSQL_ROOT_PASSWORD=userroot
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
